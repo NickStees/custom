@@ -1,0 +1,25 @@
+<?php
+/*
+  implements hook_menu()
+*/
+function menu_magic_menu() {
+  $items = array();
+
+  $items['magic'] = array(
+    'title' => 'A title magic',
+    'page callback' => 'menu_magic_basic',
+    'access callback' => 'user_access', // drupal default user callback
+    'access arguments' => array('access content'), //checks if access box is checked for user
+  );
+  return $items;
+}
+
+// callback function for hook_menu
+function menu_magic_basic(){
+  $content = array();
+  $content['raw_markup'] = array (
+    '#type' => 'markup',
+    '#markup' => '<p> This is truly magic  </p>',
+  );
+  return $content;
+}
