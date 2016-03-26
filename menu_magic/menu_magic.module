@@ -34,6 +34,18 @@ function menu_magic_menu() {
     'type' => MENU_LOCAL_TASK, //type of menu item
   );
 
+  $items['node/%/magic'] = array(
+    'title' => 'Magic',
+    'description' => 'Do amazing and magical things',
+    'page callback' => 'menu_magic_node_context',
+    'page arguments' => array(1), //pass second url segments as argument
+    'access callback' => 'user_access', // drupal default user callback
+    'access arguments' => array('access content'), //all users have access,
+    'file' => 'menu_magic.context.inc', //similar to php include
+    'type' => MENU_LOCAL_TASK, //type of menu item
+    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE, //place link in both
+  );
+
   return $items;
 }
 
