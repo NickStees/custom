@@ -11,8 +11,32 @@ function menu_magic_menu() {
     'access callback' => 'user_access', // drupal default user callback
     'access arguments' => array('access content'), //checks if access box is checked for user
   );
+
+  //url with variable in it %
+  $items['magic/%'] = array(
+    'title' => 'Even more magic',
+    'page callback' => 'menu_magic_extra',
+    'page arguments' => array(1), //pass second array url variable as argument
+    'access callback' => 'user_access', // drupal default user callback
+    'access arguments' => array('access content'), //checks if access box is checked for user,
+    'file' => 'menu_magic.extra.inc', //similar to php include
+  );
+
+  //url with variable in it %
+  $items['user/%/magic'] = array(
+    'title' => 'Magic',
+    'description' => 'This will display a variable fromt he url',
+    'page callback' => 'menu_magic_user_tab',
+    'page arguments' => array(1), //pass second array url variable as argument
+    'access callback' => 'user_access', // drupal default user callback
+    'access arguments' => array('administer users'), //checks if access box is checked for user,
+    'file' => 'menu_magic.user.inc', //similar to php include
+    'type' => MENU_LOCAL_TASK, //type of menu item
+  );
+
   return $items;
 }
+
 
 // callback function for hook_menu
 function menu_magic_basic(){
