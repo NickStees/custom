@@ -34,7 +34,7 @@ function menu_magic_menu() {
     'type' => MENU_LOCAL_TASK, //type of menu item
   );
 
-  $items['node/%/magic'] = array(
+  $items['node/%node/magic'] = array(
     'title' => 'Magic',
     'description' => 'Do amazing and magical things',
     'page callback' => 'menu_magic_node_context',
