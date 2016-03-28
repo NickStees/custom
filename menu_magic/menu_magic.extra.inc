@@ -3,7 +3,9 @@
 function menu_magic_extra($wildcard){
   $content = array(
     '#type' => 'markup',
-    '#markup' => '<p>'. t('The Wildcard contains the value "%wildcard" ', array('%wildcard' => $wildcard)) .'</p>',
+    '#markup' => t('The Wildcard contains the value "%wildcard" ', array('%wildcard' => $wildcard)),
+    '#prefix' => '<p>',
+    '#suffix' => '</p>',
   );
   return $content;
 }

@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * Implements hook_node_view().
+ */
+function demo2_node_view($node, $view_mode = 'full') {
+  global $user; //so we can get uid of user
+
+  //only when looking at the full version, NOT the teaser
+  if ($view_mode == 'full' && user_is_logged_in()) {
+
+
+    // Everytime a node is viewed, increment the node_views count
+    // in the demo 2 by one and include the result in the node content
+    //
+    // Get record
+    $record = demo2_get_record($node->nid, $user->uid);
+
+    //if no record create one
+    if($record === FALSE){
+      $record  = new stdClass();
+      $record->nid = $node->nid;
+      $record->uid = $node->uid;
+      $record->view_count = 0;
+    }
+
+    krumo($record);
+
+    //increment view count
+    $record->view_count++;
+
+    //set record into db
+    demo2_set_record($record);
+
+    // Set up an array of placeholders to pass to t().
+    $t_args = [
+      '%num' => $record->view_count,
+    ];
+
+    $node->content['node_views'] = [
+      '#markup' => t('You have viewed this page %num times.', $t_args),
+      '#weight' => 10,
+    ];
+  }
+}
+
+/**
+ *get view count
+ */
+function demo2_get_record($nid, $uid){
+  //query and return view count
+  $query = db_select('demo2', 'd')
+    ->fields('d', ['nid', 'uid', 'view_count'])
+    ->condition('nid', $nid)
+    ->condition('uid', $uid);
+  $record = $query->execute()->fetch();
+  return $record;
+}
+
+/**
+ * save view count
+ */
+function demo2_set_record($record){
+  //validate
+  if(!is_object($record)){
+    return watchdog('demo2', 'We could not update the node view', [], WATCHDOG_ERROR);
+  }
+  //insert new record or update count in demo2
+  $query = db_merge('demo2')
+  ->key(['nid' => $record->nid])
+  ->key(['uid' => $record->uid])
+  ->fields((array) $record); // cast to array from object
+  $query->execute();
+}

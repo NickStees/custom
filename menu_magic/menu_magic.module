@@ -55,7 +55,46 @@ function menu_magic_basic(){
   $content = array();
   $content['raw_markup'] = array (
     '#type' => 'markup',
-    '#markup' => '<p> This is truly magic  </p>',
+    '#markup' => t('This is truly magic'),
+    '#prefix' => '<p>',
+    '#suffix' => '</p>',
   );
+
+  $vars = array(
+    'path' => 'http://placehold.it/400x400',
+    'alt' => t('This is a magic kitten'),
+    'title' => t('this is a title'),
+  );
+
+  $content['themed_data'] = array(
+    '#type' => 'markup',
+    '#markup' => theme('image', $vars),
+    '#prefix' => '<div class="menu-magic-img-wrap">',
+    '#suffix' => '</div>',
+    '#attached' => array(
+      'css' => array(
+        drupal_get_path('module', 'menu_magic'). '/menu_magic.css',
+      ),
+    ),
+  );
+
+  $content['renderable_element'] = array(
+    '#theme' => 'item_list',
+    '#title' => t('How do we know it\'s magic? '),
+    '#items' => array(
+      t('Is it made of wood?'),
+      t('Does it float in the lake?'),
+      t('Does it weigh the same as a duck or swallow'),
+      t('The current time is %time.', array('%time' => date('r'))),
+    ),
+    '#cache' => array(
+      'keys' => array('menu_magic', 'renderable_element'),
+      'bin' => 'cache',
+      'expire' => time() + 30,
+      'granularity' => DRUPAL_CACHE_PER_PAGE,
+    ),
+  );
+
+
   return $content;
 }

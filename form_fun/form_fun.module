@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * Hook_menu
+ */
+
+function form_fun_menu(){
+  $items = [];
+  $items['form_fun/cake'] = [
+    'title' => 'Cake or Pie?',
+    'page callback' => 'form_fun_cake_page',
+    'access arguments' => ['access content'],
+    'file' => 'form_fun.cake.inc',
+    'weight' => 1,
+  ];
+
+
+  /**
+   * directly call drupal_get_form
+   */
+  $items['form_fun/tree'] = [
+    'title' => "I'm lost!",
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['form_fun_tree'],
+    'access arguments' => ['access content'],
+    'file' => 'form_fun.tree.inc',
+    'weight' => 3,
+  ];
+
+
+  /**
+   * directly call drupal_get_form
+   */
+  $items['form_fun/states'] = [
+    'title' => "Form States Demo",
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['form_fun_states_form'],
+    'access arguments' => ['access content'],
+    'file' => 'form_fun.states.inc',
+    'weight' => 4,
+  ];
+
+  return $items;
+}
