@@ -1,0 +1,51 @@
+<?php
+
+/**
+* imp hook_schema()
+*/
+function fast_feedback_schema() {
+ $schema = array();
+ $schema['fast_feedback'] = array(
+   'description' => 'Node ratings and feedback.',
+   'fields' => array(
+     'id' => array(
+       'type' => 'int',
+       'unsigned' => TRUE,
+       'not null' => TRUE,
+       'default' => 0,
+       'description' => "The id.",
+     ),
+     'nid' => array(
+       'type' => 'int',
+       'unsigned' => TRUE,
+       'not null' => TRUE,
+       'default' => 0,
+       'description' => "The node's {node}.nid.",
+     ),
+     'uid' => array(
+       'type' => 'int',
+       'unsigned' => TRUE,
+       'not null' => TRUE,
+       'default' => 0,
+       'description' => "The user's {uid}.uid.",
+     ),
+     'feedback' => array(
+       'type' => 'int',
+       'unsigned' => TRUE,
+       'not null' => TRUE,
+       'default' => 50,
+       'description' => 'Feedback rating of 0 or 100.',
+     ),
+     'time_stamp' => array(
+       'type' => 'int',
+       'unsigned' => TRUE,
+       'not null' => TRUE,
+       'default' => 0,
+       'description' => 'Date (timestamp) of input',
+     ),
+   ),
+   'primary key' => array('id'),
+ );
+
+ return $schema;
+}

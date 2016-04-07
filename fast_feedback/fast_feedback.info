@@ -1,0 +1,4 @@
+name = Fast Feedback
+description = A simple feedback rating module to rate your pages
+core = 7.x
+scripts[] = ajax.js
