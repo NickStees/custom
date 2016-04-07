@@ -22,12 +22,14 @@ function demo2_node_view($node, $view_mode = 'full') {
       $record->nid = $node->nid;
       $record->uid = $node->uid;
       $record->view_count = 0;
+      $record->last_viewed = time();
     }
 
-    krumo($record);
+    #krumo($record);
 
     //increment view count
     $record->view_count++;
+    $record->last_viewed = time();
 
     //set record into db
     demo2_set_record($record);
@@ -35,10 +37,11 @@ function demo2_node_view($node, $view_mode = 'full') {
     // Set up an array of placeholders to pass to t().
     $t_args = [
       '%num' => $record->view_count,
+      '%date' => date('r', $record->last_viewed),
     ];
 
     $node->content['node_views'] = [
-      '#markup' => t('You have viewed this page %num times.', $t_args),
+      '#markup' => t('You have viewed this page %num times. Last viewed on %date', $t_args),
       '#weight' => 10,
     ];
   }
@@ -50,7 +53,7 @@ function demo2_node_view($node, $view_mode = 'full') {
 function demo2_get_record($nid, $uid){
   //query and return view count
   $query = db_select('demo2', 'd')
-    ->fields('d', ['nid', 'uid', 'view_count'])
+    ->fields('d', ['nid', 'uid', 'view_count', 'last_viewed'])
     ->condition('nid', $nid)
     ->condition('uid', $uid);
   $record = $query->execute()->fetch();
@@ -69,6 +72,6 @@ function demo2_set_record($record){
   $query = db_merge('demo2')
   ->key(['nid' => $record->nid])
   ->key(['uid' => $record->uid])
-  ->fields((array) $record); // cast to array from object
+  ->fields((array) $record); // cast to array from object so all keys get written to db
   $query->execute();
 }

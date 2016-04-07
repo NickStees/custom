@@ -1,45 +1,68 @@
 <?php
 
 /**
- * imp hook_schema()
- */
- function demo2_schema() {
-   $schema = array();
-   $schema['demo2'] = array(
-     'description' => 'Information about node views.',
-     'fields' => array(
-       'nid' => array(
-         'type' => 'int',
-         'unsigned' => TRUE,
-         'not null' => TRUE,
-         'default' => 0,
-         'description' => "The node's {node}.nid.",
-       ),
-       'uid' => array(
-         'type' => 'int',
-         'unsigned' => TRUE,
-         'not null' => TRUE,
-         'default' => 0,
-         'description' => "The user's {uid}.uid.",
-       ),
-       'view_count' => array(
-         'type' => 'int',
-         'unsigned' => TRUE,
-         'not null' => TRUE,
-         'default' => 0,
-         'description' => 'Simple node view counter per user.',
-       ),
+* imp hook_schema()
+*/
+function demo2_schema() {
+ $schema = array();
+ $schema['demo2'] = array(
+   'description' => 'Information about node views.',
+   'fields' => array(
+     'nid' => array(
+       'type' => 'int',
+       'unsigned' => TRUE,
+       'not null' => TRUE,
+       'default' => 0,
+       'description' => "The node's {node}.nid.",
      ),
-     'primary key' => array('nid', 'uid'),
-   );
+     'uid' => array(
+       'type' => 'int',
+       'unsigned' => TRUE,
+       'not null' => TRUE,
+       'default' => 0,
+       'description' => "The user's {uid}.uid.",
+     ),
+     'view_count' => array(
+       'type' => 'int',
+       'unsigned' => TRUE,
+       'not null' => TRUE,
+       'default' => 0,
+       'description' => 'Simple node view counter per user.',
+     ),
+     'last_viewed' => array(
+       'type' => 'int',
+       'unsigned' => TRUE,
+       'not null' => TRUE,
+       'default' => 0,
+       'description' => 'The lastview date (timestamp)',
+     ),
+   ),
+   'primary key' => array('nid', 'uid'),
+ );
 
-   return $schema;
- }
+ return $schema;
+}
 
- /*
-  *Implements hook_update_N().
-  *start at 7000 
-  */
- function demo2_update_7000() {
-   drupal_install_schema('demo2');
- }
+/*
+*Implements hook_update_N().
+*start at 7000
+*/
+function demo2_update_7000() {
+ drupal_install_schema('demo2');
+}
+
+/*
+*Implements hook_update_N().
+*start at 7000
+*update to add last viewed date field
+*/
+function demo2_update_7001() {
+ $field = [
+   'type' => 'int',
+   'unsigned' => TRUE,
+   'not null' => TRUE,
+   'default' => 0,
+   'description' => "The lastview date (timestamp)",
+ ];
+ db_add_field('demo2', 'last_viewed', $field);
+}
