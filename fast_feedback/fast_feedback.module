@@ -30,10 +30,6 @@ function fast_feedback_return_average($node) {
   // //only when looking at the full version, NOT the teaser
   // if ($view_mode == 'full') {
 
-
-    // Everytime a node is viewed, increment the node_views count
-    // in the demo 2 by one and include the result in the node content
-    //
     // Get record
     //krumo($node);
     $record = fast_feedback_get_record($node);
@@ -54,13 +50,6 @@ function fast_feedback_return_average($node) {
 
     //get average rating of page
     $feedback_average_score = (array_sum($feedback_scores)) / count($feedback_scores);
-
-    //increment view count
-    //$record->view_count++;
-    //$record->last_viewed = time();
-
-    //set record into db
-    //fast_feedback_set_record($record);
 
     // Set up an array of placeholders to pass to t().
     $t_args = [
@@ -135,20 +124,3 @@ function fast_feedback_upvote_record($node) {
   ->execute();
   return fast_feedback_return_average($node);
 }
-
-
-/**
- * save view count
- */
-// function fast_feedback_set_record($record){
-//   //validate
-//   if(!is_object($record)){
-//     return watchdog('fast_feedback', 'We could not update the node view', [], WATCHDOG_ERROR);
-//   }
-//   //insert new record or update count in demo2
-//   $query = db_merge('fast_feedback')
-//   ->key(['nid' => $record->nid])
-//   ->key(['uid' => $record->uid])
-//   ->fields((array) $record); // cast to array from object so all keys get written to db
-//   $query->execute();
-// }

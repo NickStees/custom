@@ -18,6 +18,6 @@
         console.log(response);
         // var result = JSON.parse(response);
         // console.log(result);
-        $('div#feedback').html('This page has an average rating of '+Math.round(response.rating)+"%");
+        $('div#feedback').html('This page has an average satisfaction rating of '+Math.round(response.rating)+"%");
     }
 })(jQuery);
